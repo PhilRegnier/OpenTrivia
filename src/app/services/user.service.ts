@@ -19,8 +19,8 @@ export class UserService {
     this._storage = storage;
 }
 
-  async getUser(pseudo: string): User {
-    if ()
+  async getUser(pseudo: string): Promise<User> {
+    await
     return this.currentUser;
   }
 
