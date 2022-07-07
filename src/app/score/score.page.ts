@@ -9,9 +9,7 @@ import { UserService } from '../services/user.service';
 })
 export class ScorePage implements OnInit {
 
-  pseudo: string = "";
-  score: number = 0;
-  maxScore: number = 0;
+  maxScore: number;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -20,8 +18,6 @@ export class ScorePage implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.pseudo = this.userService.currentUser.pseudo;
-    this.score = this.userService.currentUser.score;
     this.maxScore = this.activatedRoute.snapshot.params.maxScore;
   }
 

@@ -13,23 +13,23 @@ import { ToolsModule } from '../tools/tools.module';
 })
 export class JeuPage implements OnInit {
 
-  pseudo: string = "";
-  difficulteChoisie: string = "";
+  pseudo: string;
+  difficulteChoisie: string;
 
-  score: number = 0;
-  maxTime: number = 10;
+  score: number;
+  maxTime = 10;
   timer: ReturnType<typeof setInterval>;
-  counter: number = 0;
-  isTimer: boolean = false;
+  counter: number;
+  isTimer = false;
 
   questions: Question[];
   currentQuestion: Question;
-  index: number = 0;
+  index: number;
   answers: string[];
   verdict: string;
 
-  isAnswered: boolean = false;
-  isEnding: boolean = false;
+  isAnswered: boolean;
+  isEnding: boolean;
 
   constructor(
     private msgCtrl: MessageModule,
@@ -59,9 +59,9 @@ export class JeuPage implements OnInit {
 
   count() {
     this.counter--;
-    if (this.counter == 0) {
-      this.msgCtrl.toast('Temps expiré !')
-      this.answer("");
+    if (this.counter === 0) {
+      this.msgCtrl.toast('Temps expiré !');
+      this.answer('');
     }
   }
 
@@ -71,7 +71,7 @@ export class JeuPage implements OnInit {
     this.answers = [];
     this.isAnswered = false;
     this.isTimer = true;
-    for (let answer of this.currentQuestion.incorrect_answers) {
+    for (const answer of this.currentQuestion.incorrect_answers) {
       this.answers.push(answer);
     }
     this.answers.push(this.currentQuestion.correct_answer);
@@ -86,14 +86,15 @@ export class JeuPage implements OnInit {
       this.isTimer = false;
       this.isAnswered = true;
       if (choix === this.currentQuestion.correct_answer) {
-        this.verdict = "Bravo !";
+        this.verdict = 'Bravo !';
         this.score++;
       }
       else {
-        if (this.counter == 0)
-          this.verdict = "Trop tard"
-        else
-          this.verdict ="Faux !"
+        if (this.counter === 0) {
+          this.verdict = 'Trop tard';
+        } else {
+          this.verdict = 'Faux !';
+        }
       }
       if (this.index >= this.questions.length) {
         this.isEnding = true;

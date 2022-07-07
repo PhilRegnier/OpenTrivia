@@ -3,7 +3,7 @@ export class User {
     score: number;
     nbQuestions: number;
     difficulty: string;
-    sauvegarde: boolean;
+    save: boolean;
 
     // TODO: Stocker les scores par catégorie et par niveau de difficulté
 }

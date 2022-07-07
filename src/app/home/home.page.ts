@@ -14,7 +14,6 @@ import { MessageModule } from '../tools/message/message.module';
 
 /*
 TODO:
-  - Créer un utilisateur "anonyme"
   - stockage des datas de réussite de l'utilisateur
   - ajouter des icones de navigation
   - ajouter une page de consultation des stats du joueur
@@ -24,14 +23,12 @@ TODO:
 
 export class HomePage implements OnInit {
 
-  pseudo: string = "";
-  difficultes: string[] = ["Easy", "Medium", "Hard"];
+  difficultes: string[] = ['Easy', 'Medium', 'Hard'];
   values: number[] = [2, 5, 8, 10];
   categories: Categorie[] = [];
-  nbQuestions: number = 5;
-  sauvegarde: boolean = false;
-  difficulteChoisie: string = "Easy";
+  difficulteChoisie: string;
   categoriesChoisies: Categorie[] = [];
+  user: User;
 
   constructor(
     private msgCtrl: MessageModule,
@@ -41,11 +38,7 @@ export class HomePage implements OnInit {
   ) {}
 
   async ngOnInit() {
-    if (this.userService.currentUser) {
-      this.pseudo = this.userService.currentUser.pseudo;
-      this.sauvegarde = this.userService.currentUser.sauvegarde;
-      this.nbQuestions = this.userService.currentUser.nbQuestions;
-    };
+    this.user = this.userService.currentUser;
     this.openTriviaService.getCategories()
       .then((result: Categorie[]) => {
         this.categories = result;
@@ -57,20 +50,22 @@ export class HomePage implements OnInit {
   }
 
   start() {
-    if (this.pseudo === "" && this.pseudo.trim().length < 3) {
-      this.msgCtrl.toast('Veuillez rentrer un pseudo');
+    if (this.user.pseudo.trim().length < 3) {
+      this.msgCtrl.toast('Veuillez rentrer un pseudo d\' au moins 3 caractères');
+      return;
+    }
+    if (this.user.pseudo.toLowerCase() === 'anonymous') {
+      this.msgCtrl.toast('Pseudo non valide !');
+      return;
     }
     else {
-      if (this.userService.getUser(this.pseudo, this.sauvegarde) == null) {
-        let user: User = {
-          pseudo: this.pseudo,
-          nbQuestions: this.nbQuestions,
-          difficulty: this.difficulteChoisie,
-          sauvegarde: this.sauvegarde,
-          score: 0
-        };
-        this.userService.setCurrentUser(user);
-      }
+      this.userService.getUser(this.user)
+        .then((result: User) => {
+          this.user = result;
+        })
+        .catch(error => {
+          this.msgCtrl.toast(error);
+        });
       this.openTriviaService.selectedCategories = this.categoriesChoisies;
       this.router.navigate(['/jeu']);
     }
@@ -80,9 +75,6 @@ export class HomePage implements OnInit {
     return c1 && c2 ? c1.id === c2.id : c1 === c2;
   }
 
-  reset() {
-    this.nbQuestions = 5;
-  }
 
 }
 

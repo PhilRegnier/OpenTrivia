@@ -10,9 +10,9 @@ import { Question } from '../models/question';
 export class OpenTriviaService {
 
     categories: Categorie[] = [];
-    selectedCategories: Categorie[] =  [{id: 0, name: "Any Category"}];;
+    selectedCategories: Categorie[] =  [{id: 0, name: 'Any Category'}];
 
-    baseUrl: string = 'https://opentdb.com/api.php?';
+    baseUrl = 'https://opentdb.com/api.php?';
 
     constructor(private http: HttpClient) {}
 
@@ -26,7 +26,7 @@ export class OpenTriviaService {
                 resolve(this.categories);
             })
             .catch(error => {
-                reject("Impossible de récupérer les catégories. Veuillez vérifier votre connexion internet.");
+                reject('Impossible de récupérer les catégories. Veuillez vérifier votre connexion internet [' + error + ']');
             });
         });
     }
@@ -34,16 +34,14 @@ export class OpenTriviaService {
     async getQuestions(difficulty: string, amount: number, category: Categorie): Promise<Question[]> {
         return new Promise((resolve, reject) => {
             let url = this.baseUrl + 'amount=' + amount;
-            if (category.id > 0) url += 'category=' + category.id;
+            if (category.id > 0) { url += 'category=' + category.id; }
             url += '&difficulty=' + difficulty.toLowerCase();
-            console.log(url);
             this.http.get<OpentdbApiData>(url).toPromise()
             .then((response) => {
-                console.log(response);
                 resolve(response.results);
             })
             .catch(error => {
-                reject("Impossible de récupérer les questions. Veuillez vérifier votre connexion internet.");
+                reject('Impossible de récupérer les questions. Veuillez vérifier votre connexion internet [' + error + ']');
             });
         });
     }

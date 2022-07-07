@@ -9,7 +9,7 @@
 <ion-content [fullscreen]="true" class="ion-padding">
   <div class="conteneur">
     <div>
-      <h3>Félicitations {{ pseudo }} ! Votre score est de {{ score }} sur {{ maxScore }}.</h3>
+      <h3>Félicitations {{ currentUser.pseudo }} ! Votre score est de {{ currentUser.score }} sur {{ maxScore }}.</h3>
       <ion-button expand="block" (click)="restart()">Retour accueil</ion-button>
     </div>
   </div>
