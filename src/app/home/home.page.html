@@ -1,20 +1,50 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>
-      Blank
+    <ion-title size="small">
+      Open Trivia
     </ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Blank</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content [fullscreen]="true" class="ion-padding">
+  <div class="conteneur">
 
-  <div id="container">
-    <strong>Ready to create an app?</strong>
-    <p>Start with Ionic <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
+    <div>
+      <ion-list>
+        <ion-item>
+          <ion-icon name="person-outline" slot="start"></ion-icon>
+          <ion-label>Votre pseudo : </ion-label>
+          <ion-input type="text" [(ngModel)]="pseudo"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-icon name="barbell-outline" slot="start"></ion-icon>
+          <ion-label>Difficulté</ion-label>
+          <ion-select [(ngModel)]="difficulteChoisie">
+            <ion-select-option *ngFor="let difficulte of difficultes" value="{{ difficulte }}">{{ difficulte }}</ion-select-option>
+          </ion-select>
+        </ion-item>
+        <ion-item>
+          <ion-icon name="options-outline" slot="start"></ion-icon>
+          <ion-label>Catégorie(s)</ion-label>
+          <ion-select multiple [(ngModel)]="categoriesChoisies" placeholder="Any category" [compareWith]="compareCategories">
+            <ion-select-option *ngFor="let categorie of categories" [value]="categorie">{{ categorie.name }}</ion-select-option>
+          </ion-select>
+        </ion-item>
+        <ion-item>
+          <ion-icon name="layers-outline" slot="start"></ion-icon>
+          <ion-label>Nombre de questions</ion-label>
+          <ion-select [(ngModel)]="nbQuestions">
+            <ion-select-option *ngFor="let val of values" [value]="val">{{ val }}</ion-select-option>
+          </ion-select>
+        </ion-item>
+        <ion-item>
+          <ion-toggle checked="false" [(ngModel)]="sauvegarde"></ion-toggle>
+          <ion-label>Sauvegarder mes informations</ion-label>
+        </ion-item>
+      </ion-list>
+      <ion-button expand="block" (click)="start()"><ion-icon name="rocket-outline" slot="start"></ion-icon> Commencer</ion-button>
+      <ion-button *ngIf="sauvegarde" expand="block" (click)=""><ion-icon name="bar-chart-outline" slot="start"></ion-icon> Voir mes stats</ion-button>
+    </div>
+
   </div>
 </ion-content>

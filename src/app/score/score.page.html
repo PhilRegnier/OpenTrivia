@@ -1,0 +1,16 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title size="small">
+      Open Trivia - Score
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="ion-padding">
+  <div class="conteneur">
+    <div>
+      <h3>Félicitations {{ pseudo }} ! Votre score est de {{ score }} sur {{ maxScore }}.</h3>
+      <ion-button expand="block" (click)="restart()">Retour accueil</ion-button>
+    </div>
+  </div>
+</ion-content>
