@@ -36,6 +36,7 @@ export class OpenTriviaService {
             let url = this.baseUrl + 'amount=' + amount;
             if (category.id > 0) { url += 'category=' + category.id; }
             url += '&difficulty=' + difficulty.toLowerCase();
+            console.log(url);
             this.http.get<OpentdbApiData>(url).toPromise()
             .then((response) => {
                 resolve(response.results);

@@ -1,7 +1,7 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-title size="small">
-      Open Trivia - Bienvenue {{ pseudo }}
+      Open Trivia - Bienvenue <span *ngIf="user.pseudo !== 'anonymous'">{{ user.pseudo }}</span>
     </ion-title>
   </ion-toolbar>
 </ion-header>

@@ -19,6 +19,10 @@ const routes: Routes = [
     path: 'score/:maxScore',
     loadChildren: () => import('./score/score.module').then( m => m.ScorePageModule)
   },
+  {
+    path: 'stat',
+    loadChildren: () => import('./stat/stat.module').then( m => m.StatPageModule)
+  },
 ];
 
 @NgModule({

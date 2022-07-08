@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { LoadingController } from '@ionic/angular';
 import { Question } from '../models/question';
+import { User } from '../models/user';
 import { OpenTriviaService } from '../services/opentrivia.service';
 import { UserService } from '../services/user.service';
 import { MessageModule } from '../tools/message/message.module';
@@ -13,8 +15,7 @@ import { ToolsModule } from '../tools/tools.module';
 })
 export class JeuPage implements OnInit {
 
-  pseudo: string;
-  difficulteChoisie: string;
+  user: User;
 
   score: number;
   maxTime = 10;
@@ -34,26 +35,37 @@ export class JeuPage implements OnInit {
   constructor(
     private msgCtrl: MessageModule,
     private router: Router,
+    private loadingCtrl: LoadingController,
     private openTriviaService: OpenTriviaService,
     private userService: UserService
   ) { }
 
   async ngOnInit() {
+    const loading = await this.loadingCtrl.create({
+      message: 'Loading the quiz...',
+      duration: 10000,
+      spinner: 'crescent'
+    });
+    loading.present();
     this.score = 0;
+    this.index = 0;
     this.questions = [];
-    this.pseudo = this.userService.currentUser.pseudo;
-    this.difficulteChoisie = this.userService.currentUser.difficulty;
+    this.user = this.userService.currentUser;
     this.openTriviaService.getQuestions(
-        this.difficulteChoisie,
-        this.userService.currentUser.nbQuestions,
+        this.user.difficulty,
+        this.user.nbQuestions,
         this.openTriviaService.selectedCategories[Math.floor(Math.random() * this.openTriviaService.selectedCategories.length)]
         )
         .then((result: Question[]) => {
           this.questions = result;
+          loading.dismiss();
           this.showNextQuestion();
         })
         .catch(error => {
+
+          loading.dismiss();
           this.msgCtrl.toast(error);
+          this.router.navigate(['/home']);
         });
   }
 
@@ -103,7 +115,7 @@ export class JeuPage implements OnInit {
   }
 
   showScore() {
-    this.userService.currentUser.score = this.score;
+    this.user.score = this.score;
     this.router.navigate(['/score', this.questions.length]);
   }
 

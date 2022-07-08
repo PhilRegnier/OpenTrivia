@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { User } from '../models/user';
 import { UserService } from '../services/user.service';
 
 @Component({
@@ -9,6 +10,7 @@ import { UserService } from '../services/user.service';
 })
 export class ScorePage implements OnInit {
 
+  user: User;
   maxScore: number;
 
   constructor(
@@ -18,6 +20,7 @@ export class ScorePage implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.user = this.userService.currentUser;
     this.maxScore = this.activatedRoute.snapshot.params.maxScore;
   }
 

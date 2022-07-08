@@ -32,7 +32,7 @@ export class UserService {
       // eslint-disable-next-line no-underscore-dangle
       this._storage.get(user.pseudo)
         .then((result: any) => {
-          if (result.value != null) {
+          if (result !== null) {
             this.currentUser = result.value;
           } else {
             this.currentUser = user;
@@ -40,7 +40,7 @@ export class UserService {
           resolve(this.currentUser);
         })
         .catch(error => {
-          reject('Impossible d\'accéder au service de stockage');
+          reject('Impossible d\'accéder au service de stockage [' + error + ']');
         });
     });
   }

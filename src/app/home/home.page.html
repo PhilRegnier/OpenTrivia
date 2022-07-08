@@ -14,7 +14,7 @@
         <ion-item>
           <ion-icon name="person-outline" slot="start"></ion-icon>
           <ion-label>Votre pseudo : </ion-label>
-          <ion-input type="text" [(ngModel)]="user.pseudo"></ion-input>
+          <ion-input type="text" slot="end" [(ngModel)]="user.pseudo" (ionChange)="identify()"></ion-input>
         </ion-item>
         <ion-item>
           <ion-icon name="barbell-outline" slot="start"></ion-icon>
@@ -33,17 +33,17 @@
         <ion-item>
           <ion-icon name="layers-outline" slot="start"></ion-icon>
           <ion-label>Nombre de questions</ion-label>
-          <ion-select [(ngModel)]="user.nbQuestions">
+          <ion-select [(ngModel)]="user.nbQuestions" interface="action-sheet" placeholder="Select One">
             <ion-select-option *ngFor="let val of values" [value]="val">{{ val }}</ion-select-option>
           </ion-select>
         </ion-item>
-        <ion-item>
+        <ion-item disabled [disabled]="user.pseudo === 'anonymous'">
           <ion-toggle checked="false" [(ngModel)]="user.save"></ion-toggle>
           <ion-label>Sauvegarder mes informations</ion-label>
         </ion-item>
       </ion-list>
       <ion-button expand="block" (click)="start()"><ion-icon name="rocket-outline" slot="start"></ion-icon> Commencer</ion-button>
-      <ion-button *ngIf="user.save" expand="block" (click)="start()"><ion-icon name="bar-chart-outline" slot="start"></ion-icon> Voir mes stats</ion-button>
+      <ion-button disabled [disabled]="!isOldUser" *ngIf="user.save" expand="block" (click)="stat()"><ion-icon name="bar-chart-outline" slot="start"></ion-icon> Voir mes stats</ion-button>
     </div>
 
   </div>
